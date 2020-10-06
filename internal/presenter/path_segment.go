@@ -21,7 +21,11 @@ func PathSegmentsFromPath(path string) []PathSegment {
 	pathSoFar := "/"
 	segments := strings.FieldsFunc(path, func(c rune) bool { return c == '/' })
 	for _, segment := range segments {
-		pathSoFar = fmt.Sprintf("%s/%s", pathSoFar, segment)
+		if pathSoFar == "/" {
+			pathSoFar = fmt.Sprintf("/%s", segment)
+		} else {
+			pathSoFar = fmt.Sprintf("%s/%s", pathSoFar, segment)
+		}
 		pathSegments = append(pathSegments, PathSegment{
 			Label: segment,
 			Path:  pathSoFar,
