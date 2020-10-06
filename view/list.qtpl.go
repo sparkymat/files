@@ -5,53 +5,80 @@
 package view
 
 //line view/list.qtpl:1
+import "github.com/sparkymat/files/internal/presenter"
+
+//line view/list.qtpl:3
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line view/list.qtpl:1
+//line view/list.qtpl:3
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line view/list.qtpl:1
-func StreamList(qw422016 *qt422016.Writer, title string) {
-//line view/list.qtpl:1
+//line view/list.qtpl:3
+func StreamList(qw422016 *qt422016.Writer, list presenter.List) {
+//line view/list.qtpl:3
 	qw422016.N().S(`
-<h1>`)
-//line view/list.qtpl:2
-	qw422016.E().S(title)
-//line view/list.qtpl:2
-	qw422016.N().S(`</h1>
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col s12">
+        <div class="nav-wrapper">
+          <div class="col s12">
+            `)
+//line view/list.qtpl:9
+	for _, pathSegment := range list.PathSegments {
+//line view/list.qtpl:9
+		qw422016.N().S(`
+              <a href="`)
+//line view/list.qtpl:10
+		qw422016.E().S(pathSegment.Path)
+//line view/list.qtpl:10
+		qw422016.N().S(`" class="breadcrumb">`)
+//line view/list.qtpl:10
+		qw422016.E().S(pathSegment.Label)
+//line view/list.qtpl:10
+		qw422016.N().S(`</a>
+            `)
+//line view/list.qtpl:11
+	}
+//line view/list.qtpl:11
+	qw422016.N().S(`
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
 `)
-//line view/list.qtpl:3
+//line view/list.qtpl:17
 }
 
-//line view/list.qtpl:3
-func WriteList(qq422016 qtio422016.Writer, title string) {
-//line view/list.qtpl:3
+//line view/list.qtpl:17
+func WriteList(qq422016 qtio422016.Writer, list presenter.List) {
+//line view/list.qtpl:17
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line view/list.qtpl:3
-	StreamList(qw422016, title)
-//line view/list.qtpl:3
+//line view/list.qtpl:17
+	StreamList(qw422016, list)
+//line view/list.qtpl:17
 	qt422016.ReleaseWriter(qw422016)
-//line view/list.qtpl:3
+//line view/list.qtpl:17
 }
 
-//line view/list.qtpl:3
-func List(title string) string {
-//line view/list.qtpl:3
+//line view/list.qtpl:17
+func List(list presenter.List) string {
+//line view/list.qtpl:17
 	qb422016 := qt422016.AcquireByteBuffer()
-//line view/list.qtpl:3
-	WriteList(qb422016, title)
-//line view/list.qtpl:3
+//line view/list.qtpl:17
+	WriteList(qb422016, list)
+//line view/list.qtpl:17
 	qs422016 := string(qb422016.B)
-//line view/list.qtpl:3
+//line view/list.qtpl:17
 	qt422016.ReleaseByteBuffer(qb422016)
-//line view/list.qtpl:3
+//line view/list.qtpl:17
 	return qs422016
-//line view/list.qtpl:3
+//line view/list.qtpl:17
 }

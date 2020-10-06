@@ -1,3 +1,17 @@
-{% func List(title string) %}
-<h1>{%s title %}</h1>
+{%import "github.com/sparkymat/files/internal/presenter" %}
+
+{% func List(list presenter.List) %}
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col s12">
+        <div class="nav-wrapper">
+          <div class="col s12">
+            {% for _, pathSegment := range list.PathSegments %}
+              <a href="{%s pathSegment.Path %}" class="breadcrumb">{%s pathSegment.Label %}</a>
+            {% endfor %}
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
 {% endfunc %}
