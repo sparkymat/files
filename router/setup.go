@@ -28,6 +28,7 @@ func Setup(router *echo.Echo, config Config) {
 
 	router.Static("/js", "public/js")
 	router.Static("/css", "public/css")
+	router.Static("/fonts", "public/fonts")
 
 	router.GET("*", file.ListHandler(config))
 

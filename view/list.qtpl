@@ -12,6 +12,29 @@
           </div>
         </div>
       </nav>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for _, entry := range list.Entries %}
+            <tr>
+              <td>
+                <a href="{%s entry.Path %}">
+                  <span class="entry-row">
+                    <i class="material-icons">{%s entry.MaterialIcon %}</i>
+                    {%s entry.Label %}
+                  </span>
+                </a>
+              </td>
+              <td>{%s entry.Type %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 {% endfunc %}
