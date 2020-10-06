@@ -1,0 +1,19 @@
+{% func Layout(title string, content string) %}
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>{%s title %}</title>
+      <meta charset="UTF-8">
+      <meta name="description" content="Recipe website">
+      <meta name="keywords" content="recipe,cooking">
+      <meta name="author" content="Crimson Finch">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="/css/materialize.min.css" rel="stylesheet" />
+      <link href="/css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+      {%s= content %}
+      <script src="/js/materialize.min.js"></script>
+    </body>
+  </html>
+{% endfunc %}

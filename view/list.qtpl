@@ -1,0 +1,3 @@
+{% func List() %}
+  <h1>Hello</h1>
+{% endfunc %}

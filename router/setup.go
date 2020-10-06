@@ -25,6 +25,9 @@ func Setup(router *echo.Echo, config Config) {
 	}))
 	router.Use(middleware.Logger())
 
+	router.Static("/js", "public/js")
+	router.Static("/css", "public/css")
+
 	router.GET("*", file.Handler(config))
 
 	pretty.Log(router.Routes())
