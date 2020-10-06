@@ -12,6 +12,7 @@ import (
 type Config interface {
 	Username() string
 	Password() string
+	RootFolder() string
 }
 
 func Setup(router *echo.Echo, config Config) {
@@ -28,7 +29,7 @@ func Setup(router *echo.Echo, config Config) {
 	router.Static("/js", "public/js")
 	router.Static("/css", "public/css")
 
-	router.GET("*", file.Handler(config))
+	router.GET("*", file.ListHandler(config))
 
 	pretty.Log(router.Routes())
 }

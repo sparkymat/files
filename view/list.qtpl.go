@@ -18,31 +18,35 @@ var (
 )
 
 //line view/list.qtpl:1
-func StreamList(qw422016 *qt422016.Writer) {
+func StreamList(qw422016 *qt422016.Writer, title string) {
 //line view/list.qtpl:1
 	qw422016.N().S(`
-  <h1>Hello</h1>
+<h1>`)
+//line view/list.qtpl:2
+	qw422016.E().S(title)
+//line view/list.qtpl:2
+	qw422016.N().S(`</h1>
 `)
 //line view/list.qtpl:3
 }
 
 //line view/list.qtpl:3
-func WriteList(qq422016 qtio422016.Writer) {
+func WriteList(qq422016 qtio422016.Writer, title string) {
 //line view/list.qtpl:3
 	qw422016 := qt422016.AcquireWriter(qq422016)
 //line view/list.qtpl:3
-	StreamList(qw422016)
+	StreamList(qw422016, title)
 //line view/list.qtpl:3
 	qt422016.ReleaseWriter(qw422016)
 //line view/list.qtpl:3
 }
 
 //line view/list.qtpl:3
-func List() string {
+func List(title string) string {
 //line view/list.qtpl:3
 	qb422016 := qt422016.AcquireByteBuffer()
 //line view/list.qtpl:3
-	WriteList(qb422016)
+	WriteList(qb422016, title)
 //line view/list.qtpl:3
 	qs422016 := string(qb422016.B)
 //line view/list.qtpl:3
