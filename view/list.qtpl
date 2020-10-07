@@ -12,11 +12,12 @@
           </div>
         </div>
       </nav>
-      <table>
+      <table class="col s12">
         <thead>
           <tr>
             <th>Name</th>
             <th>Type</th>
+            <th>Size</th>
           </tr>
         </thead>
         <tbody>
@@ -31,6 +32,7 @@
                 </a>
               </td>
               <td>{%s entry.Type %}</td>
+              <td>{%s entry.Size %}</td>
             </tr>
           {% endfor %}
         </tbody>

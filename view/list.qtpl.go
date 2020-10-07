@@ -51,81 +51,87 @@ func StreamList(qw422016 *qt422016.Writer, list presenter.List) {
           </div>
         </div>
       </nav>
-      <table>
+      <table class="col s12">
         <thead>
           <tr>
             <th>Name</th>
             <th>Type</th>
+            <th>Size</th>
           </tr>
         </thead>
         <tbody>
           `)
-//line view/list.qtpl:23
+//line view/list.qtpl:24
 	for _, entry := range list.Entries {
-//line view/list.qtpl:23
+//line view/list.qtpl:24
 		qw422016.N().S(`
             <tr>
               <td>
                 <a href="`)
-//line view/list.qtpl:26
+//line view/list.qtpl:27
 		qw422016.E().S(entry.Path)
-//line view/list.qtpl:26
+//line view/list.qtpl:27
 		qw422016.N().S(`">
                   <span class="entry-row">
                     <i class="material-icons">`)
-//line view/list.qtpl:28
+//line view/list.qtpl:29
 		qw422016.E().S(entry.MaterialIcon)
-//line view/list.qtpl:28
+//line view/list.qtpl:29
 		qw422016.N().S(`</i>
                     `)
-//line view/list.qtpl:29
+//line view/list.qtpl:30
 		qw422016.E().S(entry.Label)
-//line view/list.qtpl:29
+//line view/list.qtpl:30
 		qw422016.N().S(`
                   </span>
                 </a>
               </td>
               <td>`)
-//line view/list.qtpl:33
+//line view/list.qtpl:34
 		qw422016.E().S(entry.Type)
-//line view/list.qtpl:33
+//line view/list.qtpl:34
+		qw422016.N().S(`</td>
+              <td>`)
+//line view/list.qtpl:35
+		qw422016.E().S(entry.Size)
+//line view/list.qtpl:35
 		qw422016.N().S(`</td>
             </tr>
           `)
-//line view/list.qtpl:35
+//line view/list.qtpl:37
 	}
-//line view/list.qtpl:35
+//line view/list.qtpl:37
 	qw422016.N().S(`
         </tbody>
       </table>
     </div>
   </div>
 `)
-//line view/list.qtpl:40
+//line view/list.qtpl:42
 }
 
-//line view/list.qtpl:40
+//line view/list.qtpl:42
 func WriteList(qq422016 qtio422016.Writer, list presenter.List) {
-//line view/list.qtpl:40
+//line view/list.qtpl:42
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line view/list.qtpl:40
+//line view/list.qtpl:42
 	StreamList(qw422016, list)
-//line view/list.qtpl:40
+//line view/list.qtpl:42
 	qt422016.ReleaseWriter(qw422016)
-//line view/list.qtpl:40
+//line view/list.qtpl:42
 }
 
-//line view/list.qtpl:40
+//line view/list.qtpl:42
 func List(list presenter.List) string {
-//line view/list.qtpl:40
+//line view/list.qtpl:42
 	qb422016 := qt422016.AcquireByteBuffer()
-//line view/list.qtpl:40
+//line view/list.qtpl:42
 	WriteList(qb422016, list)
-//line view/list.qtpl:40
+//line view/list.qtpl:42
 	qs422016 := string(qb422016.B)
-//line view/list.qtpl:40
+//line view/list.qtpl:42
 	qt422016.ReleaseByteBuffer(qb422016)
-//line view/list.qtpl:40
+//line view/list.qtpl:42
 	return qs422016
-//line view/list.qtpl:40
+//line view/list.qtpl:42
 }
