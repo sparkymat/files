@@ -41,7 +41,7 @@ func (s *Session) Save(c echo.Context) {
 		Path:     "/",
 		MaxAge:   86400 * 365,
 		HttpOnly: true,
-		Secure:   true,
+		Secure:   false,
 		SameSite: http.SameSiteStrictMode,
 	}
 
