@@ -28,7 +28,7 @@ func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 			return c.String(http.StatusNotFound, "no such file or directory")
 		}
 		if !folderInfo.IsDir() {
-			return c.String(http.StatusNotFound, "not supported yet")
+			return c.File(folderPath)
 		}
 
 		folderEntries := []presenter.Entry{}
