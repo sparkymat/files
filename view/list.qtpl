@@ -18,6 +18,7 @@
             <th>Name</th>
             <th>Type</th>
             <th>Size</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -33,6 +34,11 @@
               </td>
               <td>{%s entry.Type %}</td>
               <td>{%s entry.Size %}</td>
+              <td>
+                <a href="{%s entry.Path %}" target="_blank">
+                  <i class="material-icons">file_download</i>
+                </a>
+              </td>
             </tr>
           {% endfor %}
         </tbody>
