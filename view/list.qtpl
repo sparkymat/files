@@ -5,10 +5,20 @@
     <div class="row">
       <nav class="col s12">
         <div class="nav-wrapper">
-          <div class="col s12">
+          <div class="col s12 l9">
             {% for _, pathSegment := range list.PathSegments %}
               <a href="{%s pathSegment.Path %}" class="breadcrumb">{%s pathSegment.Label %}</a>
             {% endfor %}
+          </div>
+          <div class="col s12 l3 hide-on-med-and-down">
+            <ul class="right">
+              {% if list.ShowGridButton %}
+                <li><a href="#"><i class="material-icons tooltipped" data-position="bottom" data-tooltip="Switch to grid view">view_module</i></a></li>
+              {% endif %}
+              {% if list.ShowGridButton %}
+                <li><a href="#"><i class="material-icons tooltipped" data-position="bottom" data-tooltip="Switch to list view">view_list</i></a></li>
+              {% endif %}
+            </ul>
           </div>
         </div>
       </nav>

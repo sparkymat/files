@@ -65,8 +65,10 @@ func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 		entries := append(folderEntries, fileEntries...)
 
 		listPresenter := presenter.List{
-			PathSegments: presenter.PathSegmentsFromPath(path),
-			Entries:      entries,
+			PathSegments:   presenter.PathSegmentsFromPath(path),
+			Entries:        entries,
+			ShowGridButton: true,
+			ShowListButton: true,
 		}
 
 		html := view.Layout("files", view.List(listPresenter))
