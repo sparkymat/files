@@ -38,12 +38,7 @@ func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 			if parentPath == "" {
 				parentPath = "/"
 			}
-			folderEntries = append(folderEntries, presenter.Entry{
-				Label:        "..",
-				Type:         presenter.EntryFolder,
-				MaterialIcon: "folder",
-				Path:         parentPath,
-			})
+			folderEntries = append(folderEntries, presenter.EntryForParentFolder(parentPath))
 		}
 
 		fileEntries := []presenter.Entry{}
@@ -61,9 +56,9 @@ func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 				entryPath = fmt.Sprintf("%s/%s", path, fileInfo.Name())
 			}
 			if fileInfo.IsDir() {
-				folderEntries = append(folderEntries, entryForFolder(fileInfo, entryPath))
+				folderEntries = append(folderEntries, presenter.EntryFromFileInfo(fileInfo, entryPath))
 			} else {
-				fileEntries = append(fileEntries, entryForFile(fileInfo, entryPath))
+				fileEntries = append(fileEntries, presenter.EntryFromFileInfo(fileInfo, entryPath))
 			}
 		}
 
@@ -77,38 +72,4 @@ func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 		html := view.Layout("files", view.List(listPresenter))
 		return c.HTML(http.StatusOK, html)
 	}
-}
-
-func entryForFolder(fileInfo os.FileInfo, entryPath string) presenter.Entry {
-	return presenter.Entry{
-		Label:        fileInfo.Name(),
-		Type:         presenter.EntryFolder,
-		MaterialIcon: "folder",
-		Path:         entryPath,
-	}
-}
-
-func entryForFile(fileInfo os.FileInfo, entryPath string) presenter.Entry {
-	extension := filepath.Ext(fileInfo.Name())
-	entryType, icon := presenter.EntryTypeAndIconFromExtension(extension)
-	return presenter.Entry{
-		Label:        fileInfo.Name(),
-		Type:         entryType,
-		MaterialIcon: icon,
-		Path:         entryPath,
-		Size:         renderSize(fileInfo.Size()),
-	}
-}
-
-func renderSize(size int64) string {
-	const unit = 1000
-	if size < unit {
-		return fmt.Sprintf("%d B", size)
-	}
-	div, exp := int64(unit), 0
-	for n := size / unit; n >= unit; n /= unit {
-		div *= unit
-		exp++
-	}
-	return fmt.Sprintf("%.1f %cB", float64(size)/float64(div), "kMGTPE"[exp])
 }

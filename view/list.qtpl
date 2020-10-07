@@ -25,12 +25,20 @@
           {% for _, entry := range list.Entries %}
             <tr>
               <td>
-                <a href="{%s entry.Path %}">
+                {% if entry.Linkable %}
+                  <a class="{%s entry.LinkClass %}" href="{%s entry.Path %}">
+                {% else %}
+                  <div>
+                {% endif %}
                   <span class="entry-row">
                     <i class="material-icons">{%s entry.MaterialIcon %}</i>
                     {%s entry.Label %}
                   </span>
-                </a>
+                {% if entry.Linkable %}
+                  </a>
+                {% else %}
+                  </div>
+                {% endif %}
               </td>
               <td>{%s entry.Type %}</td>
               <td>{%s entry.Size %}</td>

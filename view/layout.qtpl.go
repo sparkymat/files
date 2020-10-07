@@ -35,43 +35,47 @@ func StreamLayout(qw422016 *qt422016.Writer, title string, content string) {
       <meta name="author" content="Crimson Finch">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link href="/css/materialize.min.css" rel="stylesheet" />
+      <link href="/css/magnific-popup.css" rel="stylesheet" />
       <link href="/css/style.css" rel="stylesheet" />
     </head>
     <body>
       `)
-//line view/layout.qtpl:15
+//line view/layout.qtpl:16
 	qw422016.N().S(content)
-//line view/layout.qtpl:15
+//line view/layout.qtpl:16
 	qw422016.N().S(`
+      <script src="/js/jquery-3.5.1.min.js"></script>
+      <script src="/js/jquery.magnific-popup.min.js"></script>
       <script src="/js/materialize.min.js"></script>
+      <script src="/js/app.js"></script>
     </body>
   </html>
 `)
-//line view/layout.qtpl:19
+//line view/layout.qtpl:23
 }
 
-//line view/layout.qtpl:19
+//line view/layout.qtpl:23
 func WriteLayout(qq422016 qtio422016.Writer, title string, content string) {
-//line view/layout.qtpl:19
+//line view/layout.qtpl:23
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line view/layout.qtpl:19
+//line view/layout.qtpl:23
 	StreamLayout(qw422016, title, content)
-//line view/layout.qtpl:19
+//line view/layout.qtpl:23
 	qt422016.ReleaseWriter(qw422016)
-//line view/layout.qtpl:19
+//line view/layout.qtpl:23
 }
 
-//line view/layout.qtpl:19
+//line view/layout.qtpl:23
 func Layout(title string, content string) string {
-//line view/layout.qtpl:19
+//line view/layout.qtpl:23
 	qb422016 := qt422016.AcquireByteBuffer()
-//line view/layout.qtpl:19
+//line view/layout.qtpl:23
 	WriteLayout(qb422016, title, content)
-//line view/layout.qtpl:19
+//line view/layout.qtpl:23
 	qs422016 := string(qb422016.B)
-//line view/layout.qtpl:19
+//line view/layout.qtpl:23
 	qt422016.ReleaseByteBuffer(qb422016)
-//line view/layout.qtpl:19
+//line view/layout.qtpl:23
 	return qs422016
-//line view/layout.qtpl:19
+//line view/layout.qtpl:23
 }
