@@ -60,22 +60,10 @@ func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 			} else {
 				entryPath = fmt.Sprintf("%s/%s", path, fileInfo.Name())
 			}
-			extension := filepath.Ext(fileInfo.Name())
-			entryType, icon := presenter.EntryTypeAndIconFromExtension(extension)
 			if fileInfo.IsDir() {
-				folderEntries = append(folderEntries, presenter.Entry{
-					Label:        fileInfo.Name(),
-					Type:         presenter.EntryFolder,
-					MaterialIcon: "folder",
-					Path:         entryPath,
-				})
+				folderEntries = append(folderEntries, entryForFolder(fileInfo, entryPath))
 			} else {
-				fileEntries = append(fileEntries, presenter.Entry{
-					Label:        fileInfo.Name(),
-					Type:         entryType,
-					MaterialIcon: icon,
-					Path:         entryPath,
-				})
+				fileEntries = append(fileEntries, entryForFile(fileInfo, entryPath))
 			}
 		}
 
@@ -86,7 +74,27 @@ func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 			Entries:      entries,
 		}
 
-		html := view.Layout(fmt.Sprintf("files"), view.List(listPresenter))
+		html := view.Layout("files", view.List(listPresenter))
 		return c.HTML(http.StatusOK, html)
+	}
+}
+
+func entryForFolder(fileInfo os.FileInfo, entryPath string) presenter.Entry {
+	return presenter.Entry{
+		Label:        fileInfo.Name(),
+		Type:         presenter.EntryFolder,
+		MaterialIcon: "folder",
+		Path:         entryPath,
+	}
+}
+
+func entryForFile(fileInfo os.FileInfo, entryPath string) presenter.Entry {
+	extension := filepath.Ext(fileInfo.Name())
+	entryType, icon := presenter.EntryTypeAndIconFromExtension(extension)
+	return presenter.Entry{
+		Label:        fileInfo.Name(),
+		Type:         entryType,
+		MaterialIcon: icon,
+		Path:         entryPath,
 	}
 }
