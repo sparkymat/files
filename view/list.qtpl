@@ -1,5 +1,16 @@
 {%import "github.com/sparkymat/files/internal/presenter" %}
 
+{% func configAction(icon string, tooltip string, viewType string, returnPath string) %}
+  <a
+    href="/update_config"
+    data-method="post"
+    data-remote="true"
+    data-params="viewType={%u viewType %}&returnPath={%u returnPath %}"
+    >
+    <i class="material-icons tooltipped" data-position="bottom" data-tooltip="{%s tooltip %}">{%s icon %}</i>
+  </a>
+{% endfunc %}
+
 {% func List(list presenter.List) %}
   <div class="container-fluid">
     <div class="row">
@@ -13,10 +24,10 @@
           <div class="col s12 l3 hide-on-med-and-down">
             <ul class="right">
               {% if list.ShowGridButton %}
-                <li><a href="#"><i class="material-icons tooltipped" data-position="bottom" data-tooltip="Switch to grid view">view_module</i></a></li>
+                <li>{%= configAction("view_module", "Switch to grid view", "grid", list.CurrentPath) %}</li> 
               {% endif %}
-              {% if list.ShowGridButton %}
-                <li><a href="#"><i class="material-icons tooltipped" data-position="bottom" data-tooltip="Switch to list view">view_list</i></a></li>
+              {% if list.ShowListButton %}
+                <li>{%= configAction("view_list", "Switch to list view", "list", list.CurrentPath) %}</li> 
               {% endif %}
             </ul>
           </div>

@@ -21,8 +21,66 @@ var (
 )
 
 //line view/list.qtpl:3
-func StreamList(qw422016 *qt422016.Writer, list presenter.List) {
+func streamconfigAction(qw422016 *qt422016.Writer, icon string, tooltip string, viewType string, returnPath string) {
 //line view/list.qtpl:3
+	qw422016.N().S(`
+  <a
+    href="/update_config"
+    data-method="post"
+    data-remote="true"
+    data-params="viewType=`)
+//line view/list.qtpl:8
+	qw422016.N().U(viewType)
+//line view/list.qtpl:8
+	qw422016.N().S(`&returnPath=`)
+//line view/list.qtpl:8
+	qw422016.N().U(returnPath)
+//line view/list.qtpl:8
+	qw422016.N().S(`"
+    >
+    <i class="material-icons tooltipped" data-position="bottom" data-tooltip="`)
+//line view/list.qtpl:10
+	qw422016.E().S(tooltip)
+//line view/list.qtpl:10
+	qw422016.N().S(`">`)
+//line view/list.qtpl:10
+	qw422016.E().S(icon)
+//line view/list.qtpl:10
+	qw422016.N().S(`</i>
+  </a>
+`)
+//line view/list.qtpl:12
+}
+
+//line view/list.qtpl:12
+func writeconfigAction(qq422016 qtio422016.Writer, icon string, tooltip string, viewType string, returnPath string) {
+//line view/list.qtpl:12
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line view/list.qtpl:12
+	streamconfigAction(qw422016, icon, tooltip, viewType, returnPath)
+//line view/list.qtpl:12
+	qt422016.ReleaseWriter(qw422016)
+//line view/list.qtpl:12
+}
+
+//line view/list.qtpl:12
+func configAction(icon string, tooltip string, viewType string, returnPath string) string {
+//line view/list.qtpl:12
+	qb422016 := qt422016.AcquireByteBuffer()
+//line view/list.qtpl:12
+	writeconfigAction(qb422016, icon, tooltip, viewType, returnPath)
+//line view/list.qtpl:12
+	qs422016 := string(qb422016.B)
+//line view/list.qtpl:12
+	qt422016.ReleaseByteBuffer(qb422016)
+//line view/list.qtpl:12
+	return qs422016
+//line view/list.qtpl:12
+}
+
+//line view/list.qtpl:14
+func StreamList(qw422016 *qt422016.Writer, list presenter.List) {
+//line view/list.qtpl:14
 	qw422016.N().S(`
   <div class="container-fluid">
     <div class="row">
@@ -30,48 +88,56 @@ func StreamList(qw422016 *qt422016.Writer, list presenter.List) {
         <div class="nav-wrapper">
           <div class="col s12 l9">
             `)
-//line view/list.qtpl:9
+//line view/list.qtpl:20
 	for _, pathSegment := range list.PathSegments {
-//line view/list.qtpl:9
+//line view/list.qtpl:20
 		qw422016.N().S(`
               <a href="`)
-//line view/list.qtpl:10
+//line view/list.qtpl:21
 		qw422016.E().S(pathSegment.Path)
-//line view/list.qtpl:10
+//line view/list.qtpl:21
 		qw422016.N().S(`" class="breadcrumb">`)
-//line view/list.qtpl:10
+//line view/list.qtpl:21
 		qw422016.E().S(pathSegment.Label)
-//line view/list.qtpl:10
+//line view/list.qtpl:21
 		qw422016.N().S(`</a>
             `)
-//line view/list.qtpl:11
+//line view/list.qtpl:22
 	}
-//line view/list.qtpl:11
+//line view/list.qtpl:22
 	qw422016.N().S(`
           </div>
           <div class="col s12 l3 hide-on-med-and-down">
             <ul class="right">
               `)
-//line view/list.qtpl:15
+//line view/list.qtpl:26
 	if list.ShowGridButton {
-//line view/list.qtpl:15
+//line view/list.qtpl:26
 		qw422016.N().S(`
-                <li><a href="#"><i class="material-icons tooltipped" data-position="bottom" data-tooltip="Switch to grid view">view_module</i></a></li>
+                <li>`)
+//line view/list.qtpl:27
+		streamconfigAction(qw422016, "view_module", "Switch to grid view", "grid", list.CurrentPath)
+//line view/list.qtpl:27
+		qw422016.N().S(`</li> 
               `)
-//line view/list.qtpl:17
+//line view/list.qtpl:28
 	}
-//line view/list.qtpl:17
+//line view/list.qtpl:28
 	qw422016.N().S(`
               `)
-//line view/list.qtpl:18
-	if list.ShowGridButton {
-//line view/list.qtpl:18
+//line view/list.qtpl:29
+	if list.ShowListButton {
+//line view/list.qtpl:29
 		qw422016.N().S(`
-                <li><a href="#"><i class="material-icons tooltipped" data-position="bottom" data-tooltip="Switch to list view">view_list</i></a></li>
+                <li>`)
+//line view/list.qtpl:30
+		streamconfigAction(qw422016, "view_list", "Switch to list view", "list", list.CurrentPath)
+//line view/list.qtpl:30
+		qw422016.N().S(`</li> 
               `)
-//line view/list.qtpl:20
+//line view/list.qtpl:31
 	}
-//line view/list.qtpl:20
+//line view/list.qtpl:31
 	qw422016.N().S(`
             </ul>
           </div>
@@ -88,122 +154,122 @@ func StreamList(qw422016 *qt422016.Writer, list presenter.List) {
         </thead>
         <tbody>
           `)
-//line view/list.qtpl:35
+//line view/list.qtpl:46
 	for _, entry := range list.Entries {
-//line view/list.qtpl:35
+//line view/list.qtpl:46
 		qw422016.N().S(`
             <tr>
               <td>
                 `)
-//line view/list.qtpl:38
+//line view/list.qtpl:49
 		if entry.Linkable {
-//line view/list.qtpl:38
+//line view/list.qtpl:49
 			qw422016.N().S(`
                   <a class="`)
-//line view/list.qtpl:39
+//line view/list.qtpl:50
 			qw422016.E().S(entry.LinkClass)
-//line view/list.qtpl:39
+//line view/list.qtpl:50
 			qw422016.N().S(`" href="`)
-//line view/list.qtpl:39
+//line view/list.qtpl:50
 			qw422016.E().S(entry.Path)
-//line view/list.qtpl:39
+//line view/list.qtpl:50
 			qw422016.N().S(`">
                 `)
-//line view/list.qtpl:40
+//line view/list.qtpl:51
 		} else {
-//line view/list.qtpl:40
+//line view/list.qtpl:51
 			qw422016.N().S(`
                   <div>
                 `)
-//line view/list.qtpl:42
+//line view/list.qtpl:53
 		}
-//line view/list.qtpl:42
+//line view/list.qtpl:53
 		qw422016.N().S(`
                   <span class="entry-row">
                     <i class="material-icons">`)
-//line view/list.qtpl:44
+//line view/list.qtpl:55
 		qw422016.E().S(entry.MaterialIcon)
-//line view/list.qtpl:44
+//line view/list.qtpl:55
 		qw422016.N().S(`</i>
                     `)
-//line view/list.qtpl:45
+//line view/list.qtpl:56
 		qw422016.E().S(entry.Label)
-//line view/list.qtpl:45
+//line view/list.qtpl:56
 		qw422016.N().S(`
                   </span>
                 `)
-//line view/list.qtpl:47
+//line view/list.qtpl:58
 		if entry.Linkable {
-//line view/list.qtpl:47
+//line view/list.qtpl:58
 			qw422016.N().S(`
                   </a>
                 `)
-//line view/list.qtpl:49
+//line view/list.qtpl:60
 		} else {
-//line view/list.qtpl:49
+//line view/list.qtpl:60
 			qw422016.N().S(`
                   </div>
                 `)
-//line view/list.qtpl:51
+//line view/list.qtpl:62
 		}
-//line view/list.qtpl:51
+//line view/list.qtpl:62
 		qw422016.N().S(`
               </td>
               <td>`)
-//line view/list.qtpl:53
+//line view/list.qtpl:64
 		qw422016.E().S(entry.Type)
-//line view/list.qtpl:53
+//line view/list.qtpl:64
 		qw422016.N().S(`</td>
               <td>`)
-//line view/list.qtpl:54
+//line view/list.qtpl:65
 		qw422016.E().S(entry.Size)
-//line view/list.qtpl:54
+//line view/list.qtpl:65
 		qw422016.N().S(`</td>
               <td>
                 <a href="`)
-//line view/list.qtpl:56
+//line view/list.qtpl:67
 		qw422016.E().S(entry.Path)
-//line view/list.qtpl:56
+//line view/list.qtpl:67
 		qw422016.N().S(`" target="_blank">
                   <i class="material-icons">file_download</i>
                 </a>
               </td>
             </tr>
           `)
-//line view/list.qtpl:61
+//line view/list.qtpl:72
 	}
-//line view/list.qtpl:61
+//line view/list.qtpl:72
 	qw422016.N().S(`
         </tbody>
       </table>
     </div>
   </div>
 `)
-//line view/list.qtpl:66
+//line view/list.qtpl:77
 }
 
-//line view/list.qtpl:66
+//line view/list.qtpl:77
 func WriteList(qq422016 qtio422016.Writer, list presenter.List) {
-//line view/list.qtpl:66
+//line view/list.qtpl:77
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line view/list.qtpl:66
+//line view/list.qtpl:77
 	StreamList(qw422016, list)
-//line view/list.qtpl:66
+//line view/list.qtpl:77
 	qt422016.ReleaseWriter(qw422016)
-//line view/list.qtpl:66
+//line view/list.qtpl:77
 }
 
-//line view/list.qtpl:66
+//line view/list.qtpl:77
 func List(list presenter.List) string {
-//line view/list.qtpl:66
+//line view/list.qtpl:77
 	qb422016 := qt422016.AcquireByteBuffer()
-//line view/list.qtpl:66
+//line view/list.qtpl:77
 	WriteList(qb422016, list)
-//line view/list.qtpl:66
+//line view/list.qtpl:77
 	qs422016 := string(qb422016.B)
-//line view/list.qtpl:66
+//line view/list.qtpl:77
 	qt422016.ReleaseByteBuffer(qb422016)
-//line view/list.qtpl:66
+//line view/list.qtpl:77
 	return qs422016
-//line view/list.qtpl:66
+//line view/list.qtpl:77
 }

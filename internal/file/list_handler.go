@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/labstack/echo/v4"
+	"github.com/sparkymat/files/config"
 	"github.com/sparkymat/files/internal/presenter"
 	"github.com/sparkymat/files/view"
 )
@@ -19,6 +20,9 @@ type ListHandlerConfig interface {
 
 func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 	return func(c echo.Context) error {
+		sessionConfig := config.FromSession(c)
+		sessionConfig.Save(c)
+
 		path := c.Request().URL.Path
 		folderPath := filepath.Join(cfg.RootFolder(), path)
 
@@ -65,10 +69,11 @@ func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 		entries := append(folderEntries, fileEntries...)
 
 		listPresenter := presenter.List{
+			CurrentPath:    path,
 			PathSegments:   presenter.PathSegmentsFromPath(path),
 			Entries:        entries,
-			ShowGridButton: true,
-			ShowListButton: true,
+			ShowGridButton: sessionConfig.ViewType == config.ViewList,
+			ShowListButton: sessionConfig.ViewType == config.ViewGrid,
 		}
 
 		html := view.Layout("files", view.List(listPresenter))

@@ -7,6 +7,7 @@ type API interface {
 	Password() string
 	Port() int
 	RootFolder() string
+	SessionSecret() string
 }
 
 func New() API {
@@ -26,10 +27,11 @@ type service struct {
 }
 
 type envValues struct {
-	Username   string `env:"USERNAME,required"`
-	Password   string `env:"PASSWORD,required"`
-	Port       int    `env:"PORT" envDefault:"8080"`
-	RootFolder string `env:"ROOT_FOLDER,required"`
+	Username      string `env:"USERNAME,required"`
+	Password      string `env:"PASSWORD,required"`
+	Port          int    `env:"PORT" envDefault:"8080"`
+	RootFolder    string `env:"ROOT_FOLDER,required"`
+	SessionSecret string `env:"SESSION_SECRET" envDefault:"changeme"`
 }
 
 func (s *service) Username() string {
@@ -46,4 +48,8 @@ func (s *service) Port() int {
 
 func (s *service) RootFolder() string {
 	return s.envValues.RootFolder
+}
+
+func (s *service) SessionSecret() string {
+	return s.envValues.SessionSecret
 }
