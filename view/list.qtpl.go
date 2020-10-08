@@ -306,7 +306,7 @@ func StreamList(qw422016 *qt422016.Writer, list presenter.List) {
 			} else {
 //line view/list.qtpl:88
 				qw422016.N().S(`
-                  <i class="material-icons large">`)
+                  <i class="material-icons large icon-shadow">`)
 //line view/list.qtpl:89
 				qw422016.E().S(entry.MaterialIcon)
 //line view/list.qtpl:89

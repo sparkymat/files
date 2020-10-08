@@ -86,7 +86,7 @@
                 {% if entry.Type == presenter.EntryImageFile %}
                   <div class="center-cropped {%s entry.LinkClass %}" style="background-image: url('{%s entry.Path %}');"></div>
                 {% else %}
-                  <i class="material-icons large">{%s entry.MaterialIcon %}</i>
+                  <i class="material-icons large icon-shadow">{%s entry.MaterialIcon %}</i>
                 {% endif %}
                 {%s entry.Label %}
               </div>
