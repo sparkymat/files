@@ -14,7 +14,7 @@
 {% func List(list presenter.List) %}
   <div class="container-fluid">
     <div class="row">
-      <nav class="col s12">
+      <nav class="col s12 blue">
         <div class="nav-wrapper">
           <div class="col s12 l9">
             {% for _, pathSegment := range list.PathSegments %}

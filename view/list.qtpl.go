@@ -84,7 +84,7 @@ func StreamList(qw422016 *qt422016.Writer, list presenter.List) {
 	qw422016.N().S(`
   <div class="container-fluid">
     <div class="row">
-      <nav class="col s12">
+      <nav class="col s12 blue">
         <div class="nav-wrapper">
           <div class="col s12 l9">
             `)
