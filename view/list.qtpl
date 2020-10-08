@@ -54,7 +54,7 @@
                     <div>
                   {% endif %}
                     <span class="entry-row">
-                      <i class="material-icons">{%s entry.MaterialIcon %}</i>
+                      <i class="material-icons {%s entry.IconClass %}">{%s entry.MaterialIcon %}</i>
                       {%s entry.Label %}
                     </span>
                   {% if entry.Linkable %}

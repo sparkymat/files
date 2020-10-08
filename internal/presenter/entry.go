@@ -22,6 +22,7 @@ type Entry struct {
 	Label        string
 	Path         string
 	MaterialIcon string
+	IconClass    string
 	Size         string
 	Linkable     bool
 	LinkClass    string
@@ -35,22 +36,22 @@ func EntryFromFileInfo(fileInfo os.FileInfo, entryPath string) Entry {
 	}
 }
 
-func EntryTypeAndIconFromExtension(extension string) (string, string) {
+func EntryTypeAndIconDetailsFromExtension(extension string) (string, string, string) {
 	switch extension {
 	case ".jpg", ".jpeg", ".gif", ".png", ".bmp":
-		return EntryImageFile, "image"
+		return EntryImageFile, "image", "green-text"
 	case ".mov", ".mpg", ".mpeg", ".mp4", ".mkv", ".flv":
-		return EntryVideoFile, "movie"
+		return EntryVideoFile, "movie", "red-text text-accent-4"
 	case ".mp3", ".m4a", ".aac", ".ac3", ".wav", ".flac":
-		return EntryMusicFile, "music_note"
+		return EntryMusicFile, "music_note", "blue-text text-accent-3"
 	case ".pdf":
-		return EntryPDFFile, "insert_drive_file"
+		return EntryPDFFile, "insert_drive_file", "red-text text-accent-4"
 	case ".iso", ".dmg", ".img":
-		return EntryDiscImageFile, "album"
+		return EntryDiscImageFile, "album", "grey-text text-darken-1"
 	case ".csv":
-		return EntryTextFile, "insert_drive_file"
+		return EntryTextFile, "insert_drive_file", "grey-text text-darken-1"
 	default:
-		return EntryUnknown, "info"
+		return EntryUnknown, "info", "grey-text text-darken-1"
 	}
 }
 
@@ -69,6 +70,7 @@ func entryForFolder(fileInfo os.FileInfo, entryPath string) Entry {
 		Label:        fileInfo.Name(),
 		Type:         EntryFolder,
 		MaterialIcon: "folder",
+		IconClass:    "yellow-text text-accent-4",
 		Path:         entryPath,
 		Linkable:     true,
 	}
@@ -76,7 +78,7 @@ func entryForFolder(fileInfo os.FileInfo, entryPath string) Entry {
 
 func entryForFile(fileInfo os.FileInfo, entryPath string) Entry {
 	extension := filepath.Ext(fileInfo.Name())
-	entryType, icon := EntryTypeAndIconFromExtension(extension)
+	entryType, icon, iconClass := EntryTypeAndIconDetailsFromExtension(extension)
 
 	var linkClass string
 	if entryType == EntryImageFile {
@@ -87,6 +89,7 @@ func entryForFile(fileInfo os.FileInfo, entryPath string) Entry {
 		Label:        fileInfo.Name(),
 		Type:         entryType,
 		MaterialIcon: icon,
+		IconClass:    iconClass,
 		Path:         entryPath,
 		Size:         renderSize(fileInfo.Size()),
 		LinkClass:    linkClass,
