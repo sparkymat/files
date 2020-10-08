@@ -83,8 +83,12 @@
               <div>
             {% endif %}
               <div class="col s4 l2 entry-grid">
-                    <i class="material-icons large">{%s entry.MaterialIcon %}</i>
-                    {%s entry.Label %}
+                {% if entry.Type == presenter.EntryImageFile %}
+                  <div class="center-cropped {%s entry.LinkClass %}" style="background-image: url('{%s entry.Path %}');"></div>
+                {% else %}
+                  <i class="material-icons large">{%s entry.MaterialIcon %}</i>
+                {% endif %}
+                {%s entry.Label %}
               </div>
             {% if entry.Linkable %}
               </a>
