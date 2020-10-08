@@ -72,6 +72,7 @@ func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 			CurrentPath:    path,
 			PathSegments:   presenter.PathSegmentsFromPath(path),
 			Entries:        entries,
+			ViewType:       sessionConfig.ViewType,
 			ShowGridButton: sessionConfig.ViewType == config.ViewList,
 			ShowListButton: sessionConfig.ViewType == config.ViewGrid,
 		}
