@@ -11,10 +11,16 @@ import (
 )
 
 func main() {
-	appConfig := config.New()
+	appConfig, err := config.New()
+	if err != nil {
+		panic(err)
+	}
+
 	e := echo.New()
 
 	router.Setup(e, appConfig)
 
-	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", appConfig.Port())))
+	if err = e.Start(fmt.Sprintf(":%d", appConfig.Port())); err != nil {
+		panic(err)
+	}
 }

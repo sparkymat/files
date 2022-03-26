@@ -2,27 +2,19 @@ package config
 
 import "github.com/caarlos0/env"
 
-type API interface {
-	Username() string
-	Password() string
-	Port() int
-	RootFolder() string
-	SessionSecret() string
-}
-
-func New() API {
+func New() (*Service, error) {
 	var envValues envValues
 
 	if err := env.Parse(&envValues); err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	return &service{
+	return &Service{
 		envValues: envValues,
-	}
+	}, nil
 }
 
-type service struct {
+type Service struct {
 	envValues envValues
 }
 
@@ -34,22 +26,22 @@ type envValues struct {
 	SessionSecret string `env:"SESSION_SECRET" envDefault:"changeme"`
 }
 
-func (s *service) Username() string {
+func (s *Service) Username() string {
 	return s.envValues.Username
 }
 
-func (s *service) Password() string {
+func (s *Service) Password() string {
 	return s.envValues.Password
 }
 
-func (s *service) Port() int {
+func (s *Service) Port() int {
 	return s.envValues.Port
 }
 
-func (s *service) RootFolder() string {
+func (s *Service) RootFolder() string {
 	return s.envValues.RootFolder
 }
 
-func (s *service) SessionSecret() string {
+func (s *Service) SessionSecret() string {
 	return s.envValues.SessionSecret
 }
