@@ -1,10 +1,5 @@
-FROM golang:1.15.2-alpine3.12
+FROM alpine:3
 
-RUN apk add --no-cache go make
+ADD files /usr/bin/files
 
-ADD . /app
-WORKDIR /app
-
-RUN make
-
-ENTRYPOINT ["/app/files"]
+ENTRYPOINT ["/usr/bin/files"]
