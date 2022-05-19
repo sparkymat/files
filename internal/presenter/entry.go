@@ -37,7 +37,7 @@ func EntryFromFileInfo(fileInfo os.FileInfo, entryPath string) Entry {
 }
 
 //nolint:goconst
-func EntryTypeAndIconDetailsFromExtension(extension string) (fileType string, icon string, css string) {
+func EntryTypeAndIconDetailsFromExtension(extension string) (string, string, string) { //nolint:revive
 	switch extension {
 	case ".jpg", ".jpeg", ".gif", ".png", ".bmp":
 		return EntryImageFile, "image", "green-text"
