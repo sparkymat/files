@@ -1,12 +1,16 @@
 package config
 
-import "github.com/caarlos0/env"
+import (
+	"fmt"
+
+	"github.com/caarlos0/env"
+)
 
 func New() (*Service, error) {
 	var envValues envValues
 
 	if err := env.Parse(&envValues); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to parse env values. err: %w", err)
 	}
 
 	return &Service{

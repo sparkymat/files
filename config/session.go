@@ -13,6 +13,9 @@ type ViewType string
 const (
 	ViewList ViewType = "list"
 	ViewGrid ViewType = "grid"
+
+	SecondsInDay = 86400
+	DaysInYear   = 365
 )
 
 type Session struct {
@@ -39,7 +42,7 @@ func (s *Session) Save(c echo.Context) {
 	sess, _ := session.Get("_session", c)
 	sess.Options = &sessions.Options{
 		Path:     "/",
-		MaxAge:   86400 * 365,
+		MaxAge:   DaysInYear * SecondsInDay,
 		HttpOnly: true,
 		Secure:   false,
 		SameSite: http.SameSiteStrictMode,
@@ -48,5 +51,5 @@ func (s *Session) Save(c echo.Context) {
 	// ViewType
 	sess.Values["viewType"] = string(s.ViewType)
 
-	sess.Save(c.Request(), c.Response())
+	_ = sess.Save(c.Request(), c.Response())
 }

@@ -31,12 +31,13 @@ type Entry struct {
 func EntryFromFileInfo(fileInfo os.FileInfo, entryPath string) Entry {
 	if fileInfo.IsDir() {
 		return entryForFolder(fileInfo, entryPath)
-	} else {
-		return entryForFile(fileInfo, entryPath)
 	}
+
+	return entryForFile(fileInfo, entryPath)
 }
 
-func EntryTypeAndIconDetailsFromExtension(extension string) (string, string, string) {
+//nolint:goconst
+func EntryTypeAndIconDetailsFromExtension(extension string) (fileType string, icon string, css string) {
 	switch extension {
 	case ".jpg", ".jpeg", ".gif", ".png", ".bmp":
 		return EntryImageFile, "image", "green-text"
@@ -99,13 +100,17 @@ func entryForFile(fileInfo os.FileInfo, entryPath string) Entry {
 
 func renderSize(size int64) string {
 	const unit = 1000
+
 	if size < unit {
 		return fmt.Sprintf("%d B", size)
 	}
+
 	div, exp := int64(unit), 0
+
 	for n := size / unit; n >= unit; n /= unit {
 		div *= unit
 		exp++
 	}
+
 	return fmt.Sprintf("%.1f %cB", float64(size)/float64(div), "kMGTPE"[exp])
 }

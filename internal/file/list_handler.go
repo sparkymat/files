@@ -18,6 +18,7 @@ type ListHandlerConfig interface {
 	RootFolder() string
 }
 
+//nolint:funlen,revive,cyclop
 func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 	return func(c echo.Context) error {
 		sessionConfig := config.FromSession(c)
@@ -27,21 +28,29 @@ func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 		folderPath := filepath.Join(cfg.RootFolder(), path)
 
 		var folderInfo os.FileInfo
+
 		var err error
+
 		if folderInfo, err = os.Stat(folderPath); os.IsNotExist(err) {
+			//nolint:wrapcheck
 			return c.String(http.StatusNotFound, "no such file or directory")
 		}
+
 		if !folderInfo.IsDir() {
+			//nolint:wrapcheck
 			return c.File(folderPath)
 		}
 
 		folderEntries := []presenter.Entry{}
+
 		if path != "" && path != "/" {
 			parentPath := strings.TrimSuffix(path, filepath.Base(path))
 			parentPath = strings.TrimSuffix(parentPath, "/")
+
 			if parentPath == "" {
 				parentPath = "/"
 			}
+
 			folderEntries = append(folderEntries, presenter.EntryForParentFolder(parentPath))
 		}
 
@@ -49,16 +58,19 @@ func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 
 		fileInfos, err := ioutil.ReadDir(folderPath)
 		if err != nil {
+			//nolint:wrapcheck
 			return c.String(http.StatusNotFound, "unable to read folder")
 		}
 
 		for _, fileInfo := range fileInfos {
 			var entryPath string
+
 			if path == "/" || path == "" {
 				entryPath = fmt.Sprintf("/%s", fileInfo.Name())
 			} else {
 				entryPath = fmt.Sprintf("%s/%s", path, fileInfo.Name())
 			}
+
 			if fileInfo.IsDir() {
 				folderEntries = append(folderEntries, presenter.EntryFromFileInfo(fileInfo, entryPath))
 			} else {
@@ -66,7 +78,10 @@ func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 			}
 		}
 
-		entries := append(folderEntries, fileEntries...)
+		entries := []presenter.Entry{}
+
+		entries = append(entries, folderEntries...)
+		entries = append(entries, fileEntries...)
 
 		listPresenter := presenter.List{
 			CurrentPath:    path,
@@ -78,6 +93,8 @@ func ListHandler(cfg ListHandlerConfig) func(echo.Context) error {
 		}
 
 		html := view.Layout("files", view.List(listPresenter))
+
+		//nolint:wrapcheck
 		return c.HTML(http.StatusOK, html)
 	}
 }
