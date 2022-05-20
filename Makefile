@@ -1,7 +1,13 @@
-all: files
+all: docker
 
-files: generate
-	CGO_ENABLED='0' GOOS='linux' GOARCH='amd64' go build -a -ldflags '-extldflags "-static"' -o files files.go
+files-linux-amd64: generate
+	CGO_ENABLED='0' GOOS='linux' GOARCH='amd64' go build -a -ldflags '-extldflags "-static"' -o files-linux-amd64 files.go
+
+files-linux-arm: generate
+	CGO_ENABLED='0' GOOS='linux' GOARCH='arm' go build -a -ldflags '-extldflags "-static"' -o files-linux-arm files.go
+
+files-linux-arm64: generate
+	CGO_ENABLED='0' GOOS='linux' GOARCH='arm64' go build -a -ldflags '-extldflags "-static"' -o files-linux-arm64 files.go
 
 docker: files generate
 	docker build -t sparkymat/files .
@@ -10,7 +16,7 @@ generate:
 	go generate ./...
 
 lint:
-	go run github.com/golangci/golangci-lint/cmd/golangci-lint run ./... --timeout=2m
+	golangci-lint run
 
 test:
 	go test ./...

@@ -13,5 +13,8 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-files
 view/*.qtpl.go
+files
+files-linux-amd64
+files-linux-arm
+files-linux-arm64

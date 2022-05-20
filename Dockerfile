@@ -2,7 +2,7 @@ FROM alpine:3
 
 RUN mkdir /app
 ADD public /app/public
-ADD files /usr/bin/files
+ADD files-linux-amd64 /usr/bin/files
 
 WORKDIR /app
 
