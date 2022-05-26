@@ -12,6 +12,7 @@ import (
 )
 
 type Config interface {
+	AuthDisabled() bool
 	Username() string
 	Password() string
 	RootFolder() string
@@ -19,14 +20,17 @@ type Config interface {
 }
 
 func Setup(router *echo.Echo, config Config) {
-	router.Use(middleware.BasicAuth(func(username string, password string, c echo.Context) (bool, error) {
-		if subtle.ConstantTimeCompare([]byte(username), []byte(config.Username())) == 1 &&
-			subtle.ConstantTimeCompare([]byte(password), []byte(config.Password())) == 1 {
-			return true, nil
-		}
+	if !config.AuthDisabled() {
+		router.Use(middleware.BasicAuth(func(username string, password string, c echo.Context) (bool, error) {
+			if subtle.ConstantTimeCompare([]byte(username), []byte(config.Username())) == 1 &&
+				subtle.ConstantTimeCompare([]byte(password), []byte(config.Password())) == 1 {
+				return true, nil
+			}
 
-		return false, nil
-	}))
+			return false, nil
+		}))
+	}
+
 	router.Use(middleware.Logger())
 	router.Use(session.Middleware(sessions.NewCookieStore([]byte(config.SessionSecret()))))
 

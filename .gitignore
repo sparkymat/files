@@ -18,3 +18,4 @@ files
 files-linux-amd64
 files-linux-arm
 files-linux-arm64
+.env
