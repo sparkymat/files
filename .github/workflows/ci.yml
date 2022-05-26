@@ -19,6 +19,10 @@ jobs:
         with:
           go-version: '^1.18'
 
+      - name: Run Generate Code
+        run: |
+          go generate ./...
+
       - name: Run Go Linter
         uses: golangci/golangci-lint-action@v3
         with:
@@ -37,6 +41,10 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: '^1.18'
+
+      - name: Run Generate Code
+        run: |
+          go generate ./...
 
       - name: Run go tests
         run: |
