@@ -15,10 +15,10 @@ docker: files generate
 generate:
 	go generate ./...
 
-lint:
+lint: generate
 	golangci-lint run
 
-test:
+test: generate
 	go test ./...
 
 .PHONY: files
