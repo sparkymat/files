@@ -94,7 +94,7 @@ func entryForFile(fileInfo os.FileInfo, entryPath string) Entry {
 		Path:         entryPath,
 		Size:         renderSize(fileInfo.Size()),
 		LinkClass:    linkClass,
-		Linkable:     entryType == EntryImageFile,
+		Linkable:     entryType == EntryImageFile || entryType == EntryVideoFile,
 	}
 }
 
